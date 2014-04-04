@@ -19,7 +19,7 @@ include:
     - managed
     - source:
       - salt://varnish/files/{{ grains['id'] }}/etc/default/varnish.jinja
-      - salt://varnish/files/etc/default/varnish.jinja
+      - salt://varnish/files/default/etc/default/varnish.jinja
     - template: jinja
     - require:
       - pkg: varnish
@@ -32,7 +32,7 @@ include:
     - managed
     - source:
       - salt://varnish/files/{{ grains['id'] }}/etc/varnish/{{ file }}.jinja
-      - salt://varnish/files/etc/varnish/{{ file }}.jinja
+      - salt://varnish/files/default/etc/varnish/{{ file }}.jinja
     - template: jinja
     - require:
       - pkg: varnish
