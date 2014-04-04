@@ -1,0 +1,18 @@
+# Managed by saltstack.
+
+START=yes
+NFILES=131072
+DAEMON_OPTS="-a {{ salt['pillar.get']('varnish:listen', ':6081')}} \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+{%- for storage in salt['pillar.get']('varnish:storages', ['malloc,256']) %}
+             -s {{ storage }} \
+{%- endfor %}
+{%- for param in salt['pillar.get']('varnish:params', []) %}
+             -p {{ param }}={{ salt['pillar.get']('varnish:params')[param] }}\
+{%- endfor %}
+{%- if salt['pillar.get']('varnish:extra_options', '120') is defined %}
+             {{ salt['pillar.get']('varnish:extra_options', '120') }} \
+{%- endif %}
+             "
