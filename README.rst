@@ -2,7 +2,8 @@
 varnish-formula
 ================
 
-A saltstack formula to install and configure Varnish.
+A simple saltstack formula to install and configure Varnish.
+Currently it supports Debian and RedHat os_family.
 
 .. note::
 
@@ -23,4 +24,9 @@ Installs the varnish package, and starts the associated varnish service.
 ``conf``
 ------------
 
-Installs the varnish package, and starts the associated varnish service.
+Configures the varnish package.
+
+``repo``
+------------
+
+Adds the varnish official repositories.
