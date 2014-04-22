@@ -23,6 +23,8 @@ include:
     - template: jinja
     - require:
       - pkg: varnish
+    - require_in:
+      - service: varnish
 
 
 # Below we deploy the vcl files and we trigger a reload of varnish
