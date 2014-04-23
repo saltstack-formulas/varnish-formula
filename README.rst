@@ -21,12 +21,12 @@ Available states
 
 Installs the varnish package, and starts the associated varnish service.
 
-``conf``
+``varnish.conf``
 ------------
 
 Configures the varnish package.
 
-``repo``
+``varnish.repo``
 ------------
 
 Adds the varnish official repositories.
