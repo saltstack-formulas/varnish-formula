@@ -1,4 +1,8 @@
 varnish:
+  # Overrides map.jinja
+  lookup:
+    version: 3.0.5-1~precise
+
   # The files_switch key serves as a selector for alternative directories under
   # the formula files directory. Under the files directory could exist several
   # subdirectories named on the value of certain grains. By default the selector

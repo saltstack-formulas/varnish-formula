@@ -5,6 +5,9 @@ varnish:
   pkg:
     - installed
     - name: {{ varnish.pkg }}
+    {% if varnish.version is defined %}
+    - version: {{ varnish.version }}
+    {% endif %}
   service:
     - running
     - name: {{ varnish.service }}
