@@ -2,14 +2,12 @@
 
 
 varnish:
-  pkg:
-    - installed
+  pkg.installed:
     - name: {{ varnish.pkg }}
     {% if varnish.version is defined %}
     - version: {{ varnish.version }}
     {% endif %}
-  service:
-    - running
+  service.running:
     - name: {{ varnish.service }}
     - enable: True
     - reload: True
