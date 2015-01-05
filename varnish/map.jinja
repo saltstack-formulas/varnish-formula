@@ -15,4 +15,9 @@
             'components': ['varnish-3.0']
         },
     },
+    'Arch': {
+        'pkg': 'varnish',
+        'service': 'varnish',
+        'config': '/etc/default/varnish',
+    }, 
 }, merge=salt['pillar.get']('varnish:lookup')) %}
