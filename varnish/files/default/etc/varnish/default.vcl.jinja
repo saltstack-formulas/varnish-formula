@@ -1,12 +1,18 @@
 # Managed by saltstack.
+{%- set settings = salt['pillar.get']('varnish', {}) %}
+
+{% set vcl_version = settings.get('vcl', {}).get('version', '3.0') -%}
+{% if vcl_version == '4.0' -%}
+vcl {{ vcl_version }};
+{% endif -%}
 
 # This is a ultra-minimal valid VCL for Varnish that uses the default conf
 # already present in the code. That means an conservative approach regarding
 # cache policies (e.g. no caching of any cookie related object).
 
 backend default {
-    .host = "{{ salt['pillar.get']('varnish:vcl:backend_default_host',
-                                   '127.0.0.1') }}";
-    .port = "{{ salt['pillar.get']('varnish:vcl:backend_default_port',
-                                   '8080') }}";
+    .host = "{{ settings.get('vcl', {}).get('backend_default_host',
+                             '127.0.0.1') }}";
+    .port = "{{ settings.get('vcl', {}).get('backend_default_port',
+                             '8080') }}";
 }

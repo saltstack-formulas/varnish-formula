@@ -3,10 +3,16 @@
         'pkg': 'varnish',
         'service': 'varnish',
         'config': '/etc/default/varnish',
+        'repo': {
+            'components': ['varnish-3.0']
+        },
     },
     'RedHat': {
         'pkg': 'varnish',
         'service': 'varnish',
         'config': '/etc/sysconfig/varnish',
+        'repo': {
+            'components': ['varnish-3.0']
+        },
     },
 }, merge=salt['pillar.get']('varnish:lookup')) %}

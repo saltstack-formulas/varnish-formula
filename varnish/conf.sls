@@ -1,11 +1,10 @@
-{% from "varnish/map.jinja" import varnish with context %}
+{% from "varnish/map.jinja" import varnish with context -%}
+{% from "varnish/macros.jinja" import files_switch with context -%}
+{% set settings = salt['pillar.get']('varnish', {}) -%}
 
 
 include:
   - varnish
-
-
-{% set files_switch = salt['pillar.get']('varnish:files_switch', ['id']) %}
 
 
 # This state ID is going to have just a "require" instead of a "watch"
@@ -22,11 +21,7 @@ include:
 {{ varnish.config }}:
   file:
     - managed
-    - source:
-      {% for grain in files_switch if salt['grains.get'](grain) is defined -%}
-      - salt://varnish/files/{{ salt['grains.get'](grain) }}/etc/default/varnish.jinja
-      {% endfor -%}
-      - salt://varnish/files/default/etc/default/varnish.jinja
+    - source: {{ files_switch('varnish', ['/etc/default/varnish.jinja']) }}
     - template: jinja
     - require:
       - pkg: varnish
@@ -35,15 +30,13 @@ include:
 
 
 # Below we deploy the vcl files and we trigger a reload of varnish
-{% for file in salt['pillar.get']('varnish:vcl:files', ['default.vcl']) %}
+{% for file in settings.get('vcl', {}).get('files', ['default.vcl']) %}
 /etc/varnish/{{ file }}:
   file:
     - managed
-    - source:
-      {% for grain in files_switch if salt['grains.get'](grain) is defined -%}
-      - salt://varnish/files/{{ salt['grains.get'](grain) }}/etc/varnish/{{ file }}.jinja
-      {% endfor -%}
-      - salt://varnish/files/default/etc/varnish/{{ file }}.jinja
+    - makedirs: true
+    - source: {{ files_switch('varnish', ['/etc/varnish/' ~ file,
+                                          '/etc/varnish/' ~ file ~ '.jinja']) }}
     - template: jinja
     - require:
       - pkg: varnish
@@ -53,7 +46,7 @@ include:
 
 
 # Below we delete the "absent" vcl files and we trigger a reload of varnish
-{% for file in salt['pillar.get']('varnish:vcl:files_absent', []) %}
+{% for file in settings.get('vcl', {}).get('files_absent', []) %}
 /etc/varnish/{{ file }}:
   file:
     - absent
