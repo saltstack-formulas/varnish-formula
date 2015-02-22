@@ -1,10 +1,10 @@
 # Managed by saltstack.
-{%- set settings = salt['pillar.get']('varnish', {}) %}
+{% set settings = salt['pillar.get']('varnish', {}) -%}
 
 {% set vcl_version = settings.get('vcl', {}).get('version', '3.0') -%}
 {% if vcl_version == '4.0' -%}
 vcl {{ vcl_version }};
-{% endif -%}
+{%- endif %}
 
 # This is a ultra-minimal valid VCL for Varnish that uses the default conf
 # already present in the code. That means an conservative approach regarding

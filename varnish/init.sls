@@ -1,12 +1,12 @@
-{% from "varnish/map.jinja" import varnish with context %}
+{% from "varnish/map.jinja" import varnish with context -%}
 
 
 varnish:
   pkg.installed:
     - name: {{ varnish.pkg }}
-    {% if varnish.version is defined %}
+    {% if varnish.version is defined -%}
     - version: {{ varnish.version }}
-    {% endif %}
+    {%- endif %}
   service.running:
     - name: {{ varnish.service }}
     - enable: True
