@@ -1,0 +1,17 @@
+# Managed by saltstack.
+{% set settings = salt['pillar.get']('varnish', {}) -%}
+
+VARNISHD_PARAMS="-a {{ settings.get('listen', ':6081')}} \
+                 -T localhost:6082 \
+                 -u varnish \
+                 -f /etc/varnish/default.vcl \
+{%- for storage in settings.get('storages', ['malloc,256M']) %}
+                 -s {{ storage }} \
+{%- endfor %}
+{%- for param, value in settings.get('params', {}).iteritems() %}
+                 -p {{ param }}={{ value }}\
+{%- endfor %}
+                 {{ settings.get('extra_options', '') }}"
+
+VARNISHLOG_PARAMS="-a -w /var/log/varnish/varnish.log"
+
