@@ -12,6 +12,9 @@ varnish:
   # Listen address:port
   listen: ':80'
 
+  # specify which vcl to load on service start. defaults to default.vcl
+  default_vcl: mycustom.vcl
+
   # List of storage backends
   storages:
     - 'main=malloc,512m'
