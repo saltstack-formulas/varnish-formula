@@ -21,7 +21,7 @@ include:
 {{ varnish.config }}:
   file:
     - managed
-    - source: {{ files_switch('varnish', ['/etc/default/varnish.jinja']) }}
+    - source: {{ files_switch( settings.get('prefix', 'varnish'), ['/etc/default/varnish.jinja']) }}
     - template: jinja
     - require:
       - pkg: varnish
@@ -35,7 +35,7 @@ include:
   file:
     - managed
     - makedirs: true
-    - source: {{ files_switch('varnish', ['/etc/varnish/' ~ file,
+    - source: {{ files_switch( settings.get('prefix', 'varnish'), ['/etc/varnish/' ~ file,
                                           '/etc/varnish/' ~ file ~ '.jinja']) }}
     - template: jinja
     - require:
