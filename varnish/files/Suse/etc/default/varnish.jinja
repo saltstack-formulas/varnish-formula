@@ -8,7 +8,7 @@ VARNISHD_PARAMS="-a {{ settings.get('listen', ':6081')}} \
 {%- for storage in settings.get('storages', ['malloc,256M']) %}
                  -s {{ storage }} \
 {%- endfor %}
-{%- for param, value in settings.get('params', {}).iteritems() %}
+{%- for param, value in settings.get('params', {}).items() %}
                  -p {{ param }}={{ value }}\
 {%- endfor %}
                  {{ settings.get('extra_options', '') }}"
