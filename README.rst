@@ -44,6 +44,12 @@ Installs the varnish package, and starts the associated varnish service.
 
 Configures the varnish package.
 
+``varnish.systemd``
+-------------------
+
+Customizes systemd for changing the port varnish listens on.
+
+
 ``varnish.repo``
 ----------------
 
