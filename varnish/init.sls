@@ -13,3 +13,5 @@ varnish:
     - reload: True
     - require:
       - pkg: varnish
+    - watch:
+      - file: {{ varnish.config }}
