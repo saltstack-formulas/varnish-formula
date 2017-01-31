@@ -8,7 +8,7 @@ NPROCS="unlimited"
 RELOAD_VCL=1
 DAEMON_OPTS="-a {{ settings.get('listen', ':6081')}} \
              -T localhost:6082 \
-             -f /etc/varnish/default.vcl \
+             -f /etc/varnish/{{ settings.get('default_vcl', 'default.vcl') }} \
              -S /etc/varnish/secret \
 {%- for storage in settings.get('storages', ['malloc,256M']) %}
              -s {{ storage }} \
