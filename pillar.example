@@ -40,3 +40,35 @@ varnish:
       - default.vcl
     files_absent:
       - absent.vcl
+
+#
+# varnish ng states
+#
+  ng:
+    lookup:
+      repo: 'varnish41'   # useful to specify another custom repo than default (varnish40)
+    enabled: True # Optional; useful to disable the service (enabled: False)
+    install_from_repo: True # Without this, varnish is installed from stock-repo
+
+    # Init files configuration (/etc/default/varnish, /etc/sysconfig/varnish or /etc/varnish/varnish.params)
+    # can be done either with salt:// uploading the file directly:
+    config_source_path: salt://hostname/varnish-init
+
+    # or with the options directly (only one must be used)
+    config_file:
+      START: "yes"
+      NFILES: "131072"
+      MEMLOCK: "82000"
+      DAEMON_OPTS: "-a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,100m"
+
+  vcl:
+    files:
+      default:
+        path: /etc/varnish/default.vcl
+        source_path: salt://testing/default.vcl
+      mobile_detect:
+        enabled: False # Remove that VCL
+        path: /etc/varnish/mobile_detect.vcl
+        source_path: salt://testing/mobile_detect.vcl
+  varnishncsa:
+    enabled: True # Manage varnishncsa service

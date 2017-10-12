@@ -1,0 +1,10 @@
+#
+# This file is managed by salt. Do not edit by hand.
+#
+{%- from "varnish/ng/map.jinja" import varnish_settings with context %}
+
+{%- if 'config_file' in varnish_settings %}
+{%- for value,option in varnish_settings.config_file.items() %}
+{{ value }}="{{ option }}"
+{%- endfor %}
+{%- endif %}

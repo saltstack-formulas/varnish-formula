@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{% set os_family_map = salt['grains.filter_by']({
+    'Debian': {
+        'pkg': 'varnish',
+        'service': 'varnish',
+        'varnishncsa_service': 'varnishncsa',
+        'config': '/etc/default/varnish',
+        'repo': 'varnish40',
+    },
+    'RedHat': {
+        'pkg': 'varnish',
+        'service': 'varnish',
+        'varnishncsa_service': 'varnishncsa',
+        'config': '/etc/varnish/varnish.params',
+        'repo': 'varnish40',
+    },
+    'Suse': {
+        'pkg': 'varnish',
+        'service': 'varnish',
+        'varnishncsa_service': 'varnishncsa',
+        'config': '/etc/sysconfig/varnish',
+    },
+    'Arch': {
+        'pkg': 'varnish',
+        'service': 'varnish',
+        'varnishncsa_service': 'varnishncsa',
+        'config': '/etc/default/varnish',
+    },
+}, merge=salt['pillar.get']('varnish:ng:lookup')) %}
+
+{% set varnish_settings = salt['pillar.get'](
+        'varnish:ng',
+        default=os_family_map,
+        merge=True
+    )
+%}
