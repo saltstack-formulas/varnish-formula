@@ -13,7 +13,10 @@
         'pkg': 'varnish',
         'service': 'varnish',
         'varnishncsa_service': 'varnishncsa',
-        'config': '/etc/varnish/varnish.params',
+        'config': salt['grains.filter_by']({
+            '6': '/etc/sysconfig/varnish',
+            '7': '/etc/varnish/varnish.params',
+        }, grain='osmajorrelease'),
         'repo': 'varnish40',
     },
     'Suse': {
