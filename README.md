@@ -132,14 +132,13 @@ varnish:
       DAEMON_OPTS: "-a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} -f ${VARNISH_VCL_CONF} -T ${VARNISH_ADMIN_LISTEN_ADDRESS}:${VARNISH_ADMIN_LISTEN_PORT} -p thread_pool_min=${VARNISH_MIN_THREADS} -p thread_pool_max=${VARNISH_MAX_THREADS} -S ${VARNISH_SECRET_FILE} -s ${VARNISH_STORAGE}"
 ```
 
-* In CentOS 6, it must be explicitely defined the `install_from_repo` option because in the CentOS 6 repos it is the 2 version. It must be also explicitely defined the config file in the lookup section because in the [map.jinja](varnish/ng/map.jinja) it is defined the configfile for the CentOS 7 (varnish.params):
+* In CentOS 6, it must be explicitely defined the `install_from_repo` option because in the CentOS 6 repos it is the 2 version:
 
 ```yaml
 varnish:
   ng:
     lookup:
       repo: 'varnish41'
-      config: /etc/sysconfig/varnish
     install_from_repo: True
 ```
 
