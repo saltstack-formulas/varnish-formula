@@ -190,3 +190,29 @@ WantedBy=multi-user.target
 ```
 
 So you can edit and have the file managed by salt.
+
+
+* Varnish versions from 6 (including it) have change the systemd unit service; are OS agnostic (see [packaging changes](https://varnish-cache.org/docs/trunk/whats-new/upgrading-6.0.html#packaging-changes)).
+
+For Debian Family OSes can use the previous trick (changing the unit service).
+
+For RedHat Family OSes there is a new variable `version` that setup an `override.conf` for the default varnish systemd service that allow to use the `varnish.params` file. For example, to install varnish 6 LTS:
+
+```
+varnish:
+    ng:
+        lookup:
+            repo: 'varnish60lts'
+        version: '6'
+        install_from_repo: True
+        enabled: True
+        config_source_path: salt://hostname/varnish.params.jinja
+        vcl:
+            files:
+                default:
+                    path: /etc/varnish/default.vcl
+                    source_path: salt://hostname/default.vcl.jinja
+```
+
+This change is compatible with other varnish versions (there is no error if not set).
+
