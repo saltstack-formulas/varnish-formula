@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 varnish:
-  # Overrides map.jinja
-  #lookup:
-  #  version: xxx
+  # # Overrides map.jinja
+  # lookup:
+  #   version: xxx
 
   # The files_switch key serves as a selector for alternative directories unde
   # the formula files directory. See TOFS pattern doc for more info.
@@ -41,16 +44,17 @@ varnish:
     files_absent:
       - absent.vcl
 
-#
-# varnish ng states
-#
+  #
+  # varnish ng states
+  #
   ng:
     lookup:
-      repo: 'varnish41'   # useful to specify another custom repo than default (varnish40)
-    enabled: True # Optional; useful to disable the service (enabled: False)
-    install_from_repo: True # Without this, varnish is installed from stock-repo
+      repo: 'varnish41'  # to specify another custom repo than default (varnish40)
+    enabled: true  # Optional; useful to disable the service (enabled: false)
+    install_from_repo: true  # Without this, varnish is installed from stock-repo
 
-    # Init files configuration (/etc/default/varnish, /etc/sysconfig/varnish or /etc/varnish/varnish.params)
+    # Init files configuration
+    # (/etc/default/varnish, /etc/sysconfig/varnish or /etc/varnish/varnish.params)
     # can be done either with salt:// uploading the file directly:
     config_source_path: salt://hostname/varnish-init
 
@@ -59,16 +63,21 @@ varnish:
       START: "yes"
       NFILES: "131072"
       MEMLOCK: "82000"
-      DAEMON_OPTS: "-a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,100m"
+      DAEMON_OPTS: >-
+        -a :6081
+        -T localhost:6082
+        -f /etc/varnish/default.vcl
+        -S /etc/varnish/secret
+        -s malloc,100m
 
-  vcl:
-    files:
-      default:
-        path: /etc/varnish/default.vcl
-        source_path: salt://testing/default.vcl
-      mobile_detect:
-        enabled: False # Remove that VCL
-        path: /etc/varnish/mobile_detect.vcl
-        source_path: salt://testing/mobile_detect.vcl
-  varnishncsa:
-    enabled: True # Manage varnishncsa service
+    vcl:
+      files:
+        default:
+          path: /etc/varnish/default.vcl
+          source_path: salt://testing/default.vcl
+        mobile_detect:
+          enabled: false  # Remove that VCL
+          path: /etc/varnish/mobile_detect.vcl
+          source_path: salt://testing/mobile_detect.vcl
+    varnishncsa:
+      enabled: true  # Manage varnishncsa service
