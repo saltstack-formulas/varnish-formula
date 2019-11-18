@@ -29,7 +29,7 @@ varnish.vcl.enable.{{ file_options.path }}:
     file.managed:
         - name: {{ file_options.path }}
         - makedirs: true
-        - source: {{ file_options.source_path  }}
+        - source: {{ file_options.source_path }}
         - template: jinja
         - require:
             - pkg: varnish.install

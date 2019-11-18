@@ -12,18 +12,26 @@ varnish.repo.dependencies:
 
 varnish.repo.{{ varnish_settings.repo }}:
     pkgrepo.managed:
-        - name: deb https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/{{ salt['grains.get']('os')|lower }}/ {{ salt['grains.get']('oscodename') }} main
+        - name: {{ 'deb https://packagecloud.io/varnishcache/{0}/{1}/ {2} main'.format(
+                        varnish_settings.repo,
+                        salt['grains.get']('os')|lower,
+                        salt['grains.get']('oscodename'),
+                ) }}
         - file: /etc/apt/sources.list.d/{{ varnish_settings.repo }}.list
         - gpgcheck: 1
         - key_url: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/gpgkey
 
 varnish.repo.{{ varnish_settings.repo }}_src:
     pkgrepo.managed:
-        - name: deb-src https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/{{ salt['grains.get']('os')|lower }}/ {{ salt['grains.get']('oscodename') }} main
+        - name: {{ 'deb-src https://packagecloud.io/varnishcache/{0}/{1}/ {2} main'.format(
+                        varnish_settings.repo,
+                        salt['grains.get']('os')|lower,
+                        salt['grains.get']('oscodename'),
+                ) }}
         - file: /etc/apt/sources.list.d/{{ varnish_settings.repo }}.list
         - gpgcheck: 1
         - key_url: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/gpgkey
-    
+
 {% elif salt['grains.get']('os_family') == 'RedHat' %}
 
 include:

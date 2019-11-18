@@ -6,7 +6,11 @@ include:
 {% if salt['grains.get']('os_family') == 'Debian' -%}
 varnish_repo:
   pkgrepo.managed:
-    - name: deb http://repo.varnish-cache.org/{{ salt['grains.get']('os')|lower }}/ {{ salt['grains.get']('oscodename')}} {{ varnish.repo.components | join(' ') }}
+    - name: {{ 'deb http://repo.varnish-cache.org/{0}/ {1} {2}'.format(
+                    salt['grains.get']('os')|lower,
+                    salt['grains.get']('oscodename'),
+                    varnish.repo.components | join(' '),
+            ) }}
     - file: /etc/apt/sources.list.d/varnish.list
     - keyid: C4DEFFEB
     - keyserver: keyserver.ubuntu.com
