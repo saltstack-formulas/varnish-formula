@@ -5,10 +5,15 @@
 
 {% if salt['grains.get']('os_family') == 'Debian' %}
 
+{%   set pkg_dep_pyver = '3' if grains.pythonversion[0] == 3 else '' %}
 varnish.repo.dependencies:
     pkg.installed:
         - pkgs:
             - apt-transport-https
+            - python{{ pkg_dep_pyver }}-apt
+        - require_in:
+            - pkgrepo: varnish.repo.{{ varnish_settings.repo }}
+            - pkgrepo: varnish.repo.{{ varnish_settings.repo }}_src
 
 varnish.repo.{{ varnish_settings.repo }}:
     pkgrepo.managed:
