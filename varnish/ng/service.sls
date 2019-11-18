@@ -68,4 +68,6 @@ varnish.varnishncsa.service:
         - name: {{ varnish_settings.varnishncsa_service }}
         - enable: False
 {% endif %}
+        - watch:
+            - service: varnish.service
 {% endif %}
