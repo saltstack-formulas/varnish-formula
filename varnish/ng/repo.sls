@@ -39,14 +39,29 @@ varnish.repo.{{ varnish_settings.repo }}_src:
 
 {% elif salt['grains.get']('os_family') == 'RedHat' %}
 
-include:
-    - epel
-
 varnish.repo.dependencies:
     pkg.installed:
         - pkgs:
             - pygpgme
             - yum-utils
+        - require_in:
+            {% if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
+            - pkgrepo: varnish_epel_repo
+            {% endif %}
+            - pkgrepo: varnish.repo.{{ varnish_settings.repo }}
+            - pkgrepo: varnish.repo.{{ varnish_settings.repo }}_source
+
+{%   if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
+varnish_epel_repo:
+    pkgrepo.managed:
+        - name: epel
+        - humanname: Extra Packages for Enterprise Linux 7 - $basearch
+        - mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
+        - enabled: 1
+        - gpgcheck: 1
+        - gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+        - failovermethod: priority
+{%   endif %}
 
 varnish.repo.{{ varnish_settings.repo }}:
     pkgrepo.managed:
