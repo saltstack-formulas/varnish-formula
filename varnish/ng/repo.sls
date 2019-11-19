@@ -39,10 +39,13 @@ varnish.repo.{{ varnish_settings.repo }}_src:
 
 {% elif salt['grains.get']('os_family') == 'RedHat' %}
 
+{%   if salt['grains.get']('osfinger', '') not in ['Fedora-31'] %}
 varnish.repo.dependencies:
     pkg.installed:
         - pkgs:
+            {% if salt['grains.get']('osfinger', '') not in ['Fedora-30'] %}
             - pygpgme
+            {% endif %}
             - yum-utils
         - require_in:
             {% if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
@@ -50,6 +53,7 @@ varnish.repo.dependencies:
             {% endif %}
             - pkgrepo: varnish.repo.{{ varnish_settings.repo }}
             - pkgrepo: varnish.repo.{{ varnish_settings.repo }}_source
+{%   endif %}
 
 {%   if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
 varnish_epel_repo:
