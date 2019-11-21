@@ -39,7 +39,7 @@ varnish.repo.{{ varnish_settings.repo }}_src:
 
 {% elif salt['grains.get']('os_family') == 'RedHat' %}
 
-{%   if salt['grains.get']('osfinger', '') not in ['Fedora-31'] %}
+{%   if salt['grains.get']('osfinger', '') not in ['CentOS Linux-8', 'Fedora-31'] %}
 varnish.repo.dependencies:
     pkg.installed:
         - pkgs:
