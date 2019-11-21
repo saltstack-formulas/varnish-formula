@@ -67,11 +67,12 @@ varnish_epel_repo:
         - failovermethod: priority
 {%   endif %}
 
+{%   set osmajorrelease = 7 if salt['grains.get']('osfinger', '') == 'Amazon Linux-2' else salt['grains.get']('osmajorrelease') %}
 varnish.repo.{{ varnish_settings.repo }}:
     pkgrepo.managed:
         - name: {{ varnish_settings.repo }}
         - humanname: {{ varnish_settings.repo }}
-        - baseurl: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/el/{{ salt['grains.get']('osmajorrelease') }}/$basearch
+        - baseurl: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/el/{{ osmajorrelease }}/$basearch
         - enabled: 1
         - gpgcheck: 0
         - repo_gpgcheck: 1
@@ -84,7 +85,7 @@ varnish.repo.{{ varnish_settings.repo }}_source:
     pkgrepo.managed:
         - name: {{ varnish_settings.repo }}-source
         - humanname: {{ varnish_settings.repo }}-source
-        - baseurl: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/el/{{ salt['grains.get']('osmajorrelease') }}/SRPMS
+        - baseurl: https://packagecloud.io/varnishcache/{{ varnish_settings.repo }}/el/{{ osmajorrelease }}/SRPMS
         - enabled: 1
         - gpgcheck: 0
         - repo_gpgcheck: 1
