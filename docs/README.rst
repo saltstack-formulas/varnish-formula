@@ -1,15 +1,58 @@
+.. _readme:
+
 varnish-formula
 ===============
 
-A simple saltstack formula to install and configure Varnish.
+|img_travis| |img_sr|
+
+.. |img_travis| image:: https://travis-ci.com/saltstack-formulas/varnish-formula.svg?branch=master
+   :alt: Travis CI Build Status
+   :scale: 100%
+   :target: https://travis-ci.com/saltstack-formulas/varnish-formula
+.. |img_sr| image:: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+   :alt: Semantic Release
+   :scale: 100%
+   :target: https://github.com/semantic-release/semantic-release
+
+A simple SaltStack formula to install and configure Varnish.
 
 This formula has been developed distributing id and state declarations in
 different files to make it usable in most situations. It should be useful in
 scenarios ranging from a simple install of the packages (without any special
 configuration) to a more complex set-up.
 
+.. contents:: **Table of Contents**
+
+General notes
+-------------
+
+See the full `SaltStack Formulas installation and usage instructions
+<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
+
+If you are interested in writing or contributing to formulas, please pay attention to the `Writing Formula Section
+<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#writing-formulas>`_.
+
+If you want to use this formula, please pay attention to the ``FORMULA`` file and/or ``git tag``,
+which contains the currently released version. This formula is versioned according to `Semantic Versioning <http://semver.org/>`_.
+
+See `Formula Versioning Section <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#versioning>`_ for more details.
+
+If you need (non-default) configuration, please pay attention to the ``pillar.example`` file and/or `Special notes`_ section.
+
+Contributing to this repo
+-------------------------
+
+**Commit message formatting is significant!!**
+
+Please see `How to contribute <https://github.com/saltstack-formulas/.github/blob/master/CONTRIBUTING.rst>`_ for more details.
+
+Special notes
+-------------
+
+None
+
 General customization strategies
-================================
+--------------------------------
 
 First, **see if providing pillar data is enough for your customization needs**
 That's the recommended way and should be enough for most cases. See that
@@ -20,63 +63,56 @@ When providing pillar data is not enough for your needs, you can apply the
 *Template Override and Files Switch* (TOFS) pattern as described in the
 documentation file ``TOFS_pattern.md``.
 
-.. note::
-
-    Currently this formula supports Debian and RedHat os_family.
-
-    See the full `Salt Formulas
-    <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_ doc.
-
 Available states
-================
+----------------
 
 .. contents::
    :local:
 
 ``varnish``
------------
+^^^^^^^^^^^
 
 Installs the varnish package, and starts the associated varnish service.
 
 ``varnish.conf``
-----------------
+^^^^^^^^^^^^^^^^
 
 Configures the varnish package.
 
 ``varnish.repo``
-----------------
+^^^^^^^^^^^^^^^^
 
 Adds the varnish official repositories.
 
 Next-generation, alternate approach
-===================================
+-----------------------------------
 The following states provide an alternate approach to managing Varnish. Tested in Ubuntu 14/16 and CentOS 6/7.
 
 .. contents::
    :local:
 
 ``varnish.ng``
---------------
+^^^^^^^^^^^^^^
 Meta-state for inclusion of all ng states.
 
 ``varnish.ng.install``
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 Install varnish itself from custom-repo or stock-repo.
 
 ``varnish.ng.repo``
--------------------
+^^^^^^^^^^^^^^^^^^^
 Install the packagecloud.io varnish repo. Repos available can be found in `packagecloud.io <https://packagecloud.io/varnishcache>`_
 
 ``varnish.ng.config``
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 Configure varnish (vcls and init files).
 
 ``varnish.ng.service``
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 Manage varnish and varnishncsa service.
 
 Varnish NG considerations
-=========================
+-------------------------
 Because of the different OSes with different init programs (ubuntu14 - init, ubuntu 16 - systemd, centos 6 - init, centos 7 - systemd), the following considerations must be taken into account:
 
 * VCL files must be copied to minions using ``salt://`` (see `pillar.example <pillar.example>`_ vcl section):
@@ -208,3 +244,48 @@ For RedHat Family OSes there is a new variable ``version`` that setup an ``overr
              source_path: salt://hostname/default.vcl.jinja
 
 This change is compatible with other varnish versions (there is no error if not set).
+
+Testing
+-------
+
+Linux testing is done with ``kitchen-salt``.
+
+Requirements
+^^^^^^^^^^^^
+
+* Ruby
+* Docker
+
+.. code-block:: bash
+
+   $ gem install bundler
+   $ bundle install
+   $ bin/kitchen test [platform]
+
+Where ``[platform]`` is the platform name defined in ``kitchen.yml``,
+e.g. ``debian-9-2019-2-py3``.
+
+``bin/kitchen converge``
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Creates the docker instance and runs the ``template`` main state, ready for testing.
+
+``bin/kitchen verify``
+^^^^^^^^^^^^^^^^^^^^^^
+
+Runs the ``inspec`` tests on the actual instance.
+
+``bin/kitchen destroy``
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Removes the docker instance.
+
+``bin/kitchen test``
+^^^^^^^^^^^^^^^^^^^^
+
+Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``verify`` + ``destroy``.
+
+``bin/kitchen login``
+^^^^^^^^^^^^^^^^^^^^^
+
+Gives you SSH access to the instance for manual testing.
