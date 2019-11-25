@@ -57,7 +57,7 @@ varnish.service:
         - enable: False
 {% endif %}
 
-{% if 'varnishncsa' in varnish_settings %}
+{% if 'varnishncsa' in varnish_settings and varnish_settings.varnishncsa_service %}
 varnish.varnishncsa.service:
 {% if varnish_settings.varnishncsa.enabled %}
     service.running:
@@ -68,4 +68,6 @@ varnish.varnishncsa.service:
         - name: {{ varnish_settings.varnishncsa_service }}
         - enable: False
 {% endif %}
+        - watch:
+            - service: varnish.service
 {% endif %}

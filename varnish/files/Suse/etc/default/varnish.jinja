@@ -1,7 +1,7 @@
 # Managed by saltstack.
 {% set settings = salt['pillar.get']('varnish', {}) -%}
 
-VARNISHD_PARAMS="-a {{ settings.get('listen', ':6081')}} \
+VARNISHD_PARAMS="-a {{ settings.get('listen', ':6081') }} \
                  -T localhost:6082 \
                  -u varnish \
                  -f /etc/varnish/default.vcl \

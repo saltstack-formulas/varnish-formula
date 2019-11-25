@@ -14,21 +14,25 @@
         'service': 'varnish',
         'varnishncsa_service': 'varnishncsa',
         'config': salt['grains.filter_by']({
+            '2': '/etc/varnish/varnish.params',
             '6': '/etc/sysconfig/varnish',
             '7': '/etc/varnish/varnish.params',
+            '8': '/etc/varnish/varnish.params',
+            '30': '/etc/varnish/varnish.params',
+            '31': '/etc/varnish/varnish.params',
         }, grain='osmajorrelease'),
         'repo': 'varnish40',
     },
     'Suse': {
         'pkg': 'varnish',
         'service': 'varnish',
-        'varnishncsa_service': 'varnishncsa',
+        'varnishncsa_service': 'varnishlog',
         'config': '/etc/sysconfig/varnish',
     },
     'Arch': {
         'pkg': 'varnish',
         'service': 'varnish',
-        'varnishncsa_service': 'varnishncsa',
+        'varnishncsa_service': '',
         'config': '/etc/default/varnish',
     },
 }, merge=salt['pillar.get']('varnish:ng:lookup')) %}
