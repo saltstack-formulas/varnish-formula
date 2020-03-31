@@ -13,3 +13,8 @@ varnish:
         -f /etc/varnish/default.vcl
         -S /etc/varnish/secret
         -s malloc,100m
+    retry_options:
+      attempts: 3
+      until: true
+      interval: 5
+      splay: 5

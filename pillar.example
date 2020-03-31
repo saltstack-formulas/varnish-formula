@@ -84,3 +84,10 @@ varnish:
           source_path: salt://testing/mobile_detect.vcl
     varnishncsa:
       enabled: true  # Manage varnishncsa service
+
+    # https://docs.saltstack.com/en/latest/ref/states/requisites.html#retrying-states
+    retry_options:
+      attempts: 3
+      until: true
+      interval: 15
+      splay: 15

@@ -11,6 +11,9 @@ varnish.repo.dependencies:
         - pkgs:
             - apt-transport-https
             - python{{ pkg_dep_pyver }}-apt
+        {%- if varnish_settings.get('retry_options', {}) %}
+        - retry: {{ varnish_settings.retry_options | json }}
+        {%- endif %}
         - require_in:
             - pkgrepo: varnish.repo.{{ varnish_settings.repo }}
             - pkgrepo: varnish.repo.{{ varnish_settings.repo }}_src
@@ -47,6 +50,9 @@ varnish.repo.dependencies:
             - pygpgme
             {% endif %}
             - yum-utils
+        {%- if varnish_settings.get('retry_options', {}) %}
+        - retry: {{ varnish_settings.retry_options | json }}
+        {%- endif %}
         - require_in:
             {% if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
             - pkgrepo: varnish_epel_repo
