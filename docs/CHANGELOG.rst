@@ -2,6 +2,26 @@
 Changelog
 =========
 
+`0.4.0 <https://github.com/saltstack-formulas/varnish-formula/compare/v0.3.0...v0.4.0>`_ (2020-04-01)
+---------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **gemfile:** restrict ``train`` gem version until upstream fix [skip ci] (\ `b94e9c2 <https://github.com/saltstack-formulas/varnish-formula/commit/b94e9c21087ace76489710fd4ddfc89c59b9064c>`_\ )
+* **kitchen:** avoid using bootstrap for ``master`` instances [skip ci] (\ `788dd7b <https://github.com/saltstack-formulas/varnish-formula/commit/788dd7bc3ae0192d1adaddb729915344918cc638>`_\ )
+* **kitchen+travis:** adjust matrix to add ``3000`` & remove ``2017.7`` (\ `3ebb354 <https://github.com/saltstack-formulas/varnish-formula/commit/3ebb3542cb7d597358fbacd936dbd1514472948d>`_\ )
+* **travis:** quote pathspecs used with ``git ls-files`` [skip ci] (\ `bcbf380 <https://github.com/saltstack-formulas/varnish-formula/commit/bcbf380bf415e29ebee1071530641c133aec1041>`_\ )
+* **travis:** run ``shellcheck`` during lint job [skip ci] (\ `729e850 <https://github.com/saltstack-formulas/varnish-formula/commit/729e85013cbc4d7dc4b09952f4ea77f27fac6b52>`_\ )
+* **travis:** use ``major.minor`` for ``semantic-release`` version [skip ci] (\ `4b8c25b <https://github.com/saltstack-formulas/varnish-formula/commit/4b8c25bbdd2ef64a3ed193096e4763f7c276457f>`_\ )
+
+Features
+^^^^^^^^
+
+
+* **ng:** add ``retry_options`` to fix installation on ``centos-8`` (\ `90bd91c <https://github.com/saltstack-formulas/varnish-formula/commit/90bd91c43f98a82df025fb73a34c12c2f6c26b1e>`_\ )
+
 `0.3.0 <https://github.com/saltstack-formulas/varnish-formula/compare/v0.2.0...v0.3.0>`_ (2019-11-25)
 ---------------------------------------------------------------------------------------------------------
 
