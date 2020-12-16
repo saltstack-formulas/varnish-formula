@@ -2,6 +2,33 @@
 Changelog
 =========
 
+`0.4.1 <https://github.com/saltstack-formulas/varnish-formula/compare/v0.4.0...v0.4.1>`_ (2020-12-16)
+---------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **gemfile.lock:** add to repo with updated ``Gemfile`` [skip ci] (\ `aa44607 <https://github.com/saltstack-formulas/varnish-formula/commit/aa44607c746bf34dbe0acdfc3c92677fa5830b9c>`_\ )
+* **gitlab-ci:** use GitLab CI as Travis CI replacement (\ `e3f575e <https://github.com/saltstack-formulas/varnish-formula/commit/e3f575e5bdd86d836ab987b3d852ddcfb799f298>`_\ )
+* **kitchen:** use ``saltimages`` Docker Hub where available [skip ci] (\ `54cb631 <https://github.com/saltstack-formulas/varnish-formula/commit/54cb631ff2ee17e7f9fac5b7d787a321a6da8036>`_\ )
+* **kitchen+travis:** add new platforms [skip ci] (\ `31346ee <https://github.com/saltstack-formulas/varnish-formula/commit/31346ee139840f1f87e0b08eb3a927b4c5e41538>`_\ )
+* **kitchen+travis:** adjust matrix to add ``3000.2`` & remove ``2018.3`` [skip ci] (\ `cb7c4be <https://github.com/saltstack-formulas/varnish-formula/commit/cb7c4be885eabe3445c89bab5be13ff31c02ddb6>`_\ )
+* **kitchen+travis:** adjust matrix to add ``3000.3`` [skip ci] (\ `66bdad3 <https://github.com/saltstack-formulas/varnish-formula/commit/66bdad362704f445da917e4c0c5065a42ce4277e>`_\ )
+* **kitchen+travis:** adjust matrix to update ``3000`` to ``3000.1`` [skip ci] (\ `7a36cb1 <https://github.com/saltstack-formulas/varnish-formula/commit/7a36cb10f83f235de351fdb7cb20b4de56ea379c>`_\ )
+* **kitchen+travis:** remove ``master-py2-arch-base-latest`` [skip ci] (\ `5899312 <https://github.com/saltstack-formulas/varnish-formula/commit/589931284b5b0e3e4dc48fb01e85a35bd3a4b684>`_\ )
+* **pre-commit:** add to formula [skip ci] (\ `67c5b5a <https://github.com/saltstack-formulas/varnish-formula/commit/67c5b5a721bad0f0b5e889be1050d829b9a2b42e>`_\ )
+* **pre-commit:** enable/disable ``rstcheck`` as relevant [skip ci] (\ `a96852d <https://github.com/saltstack-formulas/varnish-formula/commit/a96852d95f0e363293a529efcc1a5097daf320ed>`_\ )
+* **pre-commit:** finalise ``rstcheck`` configuration [skip ci] (\ `ea962cf <https://github.com/saltstack-formulas/varnish-formula/commit/ea962cf93a65a501f218389d16d60c29c2db1fc1>`_\ )
+* **travis:** add notifications => zulip [skip ci] (\ `fd320d6 <https://github.com/saltstack-formulas/varnish-formula/commit/fd320d64bf4ff53f7c6b611cd8277c61a5e8f732>`_\ )
+* **workflows/commitlint:** add to repo [skip ci] (\ `5288992 <https://github.com/saltstack-formulas/varnish-formula/commit/5288992aa7b7bc4d467d52a561b1688e94533aaf>`_\ )
+
+Documentation
+^^^^^^^^^^^^^
+
+
+* **readme:** fix ``rstcheck`` violation [skip ci] (\ `e829357 <https://github.com/saltstack-formulas/varnish-formula/commit/e829357313727f80a7a061994d6396283538fe47>`_\ ), closes `/travis-ci.org/github/myii/varnish-formula/builds/731609027#L259 <https://github.com//travis-ci.org/github/myii/varnish-formula/builds/731609027/issues/L259>`_
+
 `0.4.0 <https://github.com/saltstack-formulas/varnish-formula/compare/v0.3.0...v0.4.0>`_ (2020-04-01)
 ---------------------------------------------------------------------------------------------------------
 
