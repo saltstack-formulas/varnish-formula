@@ -150,10 +150,9 @@ verifier:
 suites:
   - name: default
     excludes:
-      - opensuse-leap-151-master-py3
-      - opensuse-leap-151-3000-3-py3
-      - opensuse-leap-151-2019-2-py3
-      - opensuse-leap-151-2018-3-py2
+      - opensuse-leap-152-master-py3
+      - opensuse-leap-152-3000-3-py3
+      - opensuse-leap-152-2019-2-py3
     provisioner:
       state_top:
         base:
@@ -173,10 +172,9 @@ suites:
         - path: test/integration/default
   - name: suse
     includes:
-      - opensuse-leap-151-master-py3
-      - opensuse-leap-151-3000-3-py3
-      - opensuse-leap-151-2019-2-py3
-      - opensuse-leap-151-2018-3-py2
+      - opensuse-leap-152-master-py3
+      - opensuse-leap-152-3000-3-py3
+      - opensuse-leap-152-2019-2-py3
     provisioner:
       state_top:
         base:
