@@ -15,7 +15,7 @@ To avoid this situation we can use the `pillar mechanism <http://docs.saltstack.
 
 There are a variety of approaches on usage of pillar and templates seen in `saltstack-formulas <https://github.com/saltstack-formulas>`_ repositories. `Some <https://github.com/saltstack-formulas/nginx-formula/pull/18>`_ `developments <https://github.com/saltstack-formulas/php-formula/pull/14>`_ stress the initial purpose of pillar data into an storage for most of possible variables for a determined system configuration. This, in my opinion, shifting too much load from the original template files approach. Adding up some `non-trivial Jinja <https://github.com/spsoit/nginx-formula/blob/81de880fe0276dd9488ffa15bc78944c0fc2b919/nginx/ng/files/nginx.conf>`_ code as essential part of composing the state file definitely makes Saltstack state files (hence formulas) more difficult to read. The extreme of this approach is that we could end up with a new render mechanism, implemented in Jinja, storing everything needed in pillar data to compose configurations. Additionally, we are establishing a strong dependency with the Jinja renderer. 
 
-Opposed to the _put in file_roots the code and in pillar the data_ approach, there's the *pillar as a store for a set of key-values* approach. A full-blown configuration file abstracted in pillar and jinja is complicated to develop, understand and maintain. I think it's better a simpler approach keeping a configuration file templated using just a basic (non-extensive but extensible) set of pillar values.
+In opposition to the *put the code in file_roots and the data in pillars* approach, there is the *pillar as a store for a set of key-values* approach. A full-blown configuration file abstracted in pillar and jinja is complicated to develop, understand and maintain. I think a better and simpler approach is to keep a configuration file templated using just a basic (non-extensive but extensible) set of pillar values.
 
 On reusability of Saltstack state files
 ---------------------------------------
@@ -35,7 +35,7 @@ The customization of a formula should be done mainly by providing pillar data us
 
 Let's work with the NTP example. A basic formula that follows the `design guidelines <http://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_ has the following files and directories tree:
 
-.. code-block::
+.. code-block:: console
 
    /srv/saltstack/salt-formulas/ntp-saltstack-formula/
      ntp/
@@ -49,7 +49,7 @@ Let's work with the NTP example. A basic formula that follows the `design guidel
 
 In order to use it, let's assume a `masterless configuration <http://docs.saltstack.com/en/latest/topics/tutorials/quickstart.html>`_ and this relevant section of ``/etc/salt/minion``\ :
 
-.. code-block::
+.. code-block:: yaml
 
    pillar_roots:
      base:
@@ -60,7 +60,7 @@ In order to use it, let's assume a `masterless configuration <http://docs.saltst
        - /srv/saltstack/salt
        - /srv/saltstack/salt-formulas/ntp-saltstack-formula
 
-.. code-block::
+.. code-block:: jinja
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/map.jinja
    {% set ntp = salt['grains.filter_by']({
@@ -73,7 +73,7 @@ In order to use it, let's assume a `masterless configuration <http://docs.saltst
 
 In ``init.sls`` we have the minimal states required to have NTP configured. In many cases ``init.sls`` is almost equivalent to a ``apt-get install`` or a ``yum install`` of the package.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/init.sls
    ntp:
@@ -89,7 +89,7 @@ In ``init.sls`` we have the minimal states required to have NTP configured. In m
 
 In ``conf.sls`` we have the configuration states. In most cases that is just managing configuration file templates and making them be watched by the service.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/conf.sls
    include:
@@ -107,7 +107,7 @@ In ``conf.sls`` we have the configuration states. In most cases that is just man
 
 Under ``files/default`` there's an structure that mimics the one in the minion in order to avoid clashes and confusion on where to put the needed templates. There you can find a mostly standard template for configuration file.
 
-.. code-block::
+.. code-block:: jinja
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/files/default/etc/ntp.conf.jinja
    # Managed by saltstack
@@ -138,7 +138,7 @@ With all this, it's easy to install and configure a simple NTP server just runni
 
 Alternatively you can define a highstate in ``/srv/saltstack/salt/top.sls`` and run ``salt-call state.highstate``.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/salt/top.sls
    base:
@@ -147,14 +147,14 @@ Alternatively you can define a highstate in ``/srv/saltstack/salt/top.sls`` and 
 
 **Customizing the formula just with pillar data** we have the option to define the NTP servers.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/pillar/top.sls
    base:
      '*':
        - ntp
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/pillar/ntp.sls
    ntp:
@@ -169,7 +169,7 @@ Template Override
 
 If the customization based on pillar data is not enough, we can override the template creating a new one in ``/srv/saltstack/salt/ntp/files/default/etc/ntp.conf.jinja``
 
-.. code-block::
+.. code-block:: jinja
 
    ## /srv/saltstack/salt/ntp/files/default/etc/ntp.conf.jinja
    # Managed by saltstack
@@ -193,7 +193,7 @@ We can make coexist different templates for different minions, classified by any
 
 If we decide that we want ``os_family`` as switch, then we could provide with the formula template variants for ``RedHat`` and ``Debian`` families.
 
-.. code-block::
+.. code-block:: console
 
    /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/files/
      default/
@@ -208,7 +208,7 @@ If we decide that we want ``os_family`` as switch, then we could provide with th
 
 To make this work we need a ``conf.sls`` state file that takes a list of possible files as configuration template.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/conf.sls
    include:
@@ -228,7 +228,7 @@ To make this work we need a ``conf.sls`` state file that takes a list of possibl
 
 If we want to cover the possibility of a special template for a minion identified by ``node01`` then we could have a specific template in ``/srv/saltstack/salt/ntp/files/node01/etc/ntp.conf.jinja``.
 
-.. code-block::
+.. code-block:: jinja
 
    ## /srv/saltstack/salt/ntp/files/node01/etc/ntp.conf.jinja
    # Managed by saltstack
@@ -239,7 +239,7 @@ If we want to cover the possibility of a special template for a minion identifie
 
 To make this work we could write a specially crafted ``conf.sls``.
 
-.. code-block::
+.. code-block:: sls
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/conf.sls
    include:
@@ -260,7 +260,7 @@ To make this work we could write a specially crafted ``conf.sls``.
 
 The generalization of this comes with the usage of the macro ``files_switch`` in all ``source`` parameters for the ``file.managed`` function.
 
-.. code-block::
+.. code-block:: jinja
 
    ## /srv/saltstack/salt-formulas/ntp-saltstack-formula/ntp/macros.jinja
    {%- macro files_switch(prefix, 
