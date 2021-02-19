@@ -42,13 +42,11 @@ varnish.repo.{{ varnish_settings.repo }}_src:
 
 {% elif salt['grains.get']('os_family') == 'RedHat' %}
 
-{%   if salt['grains.get']('osfinger', '') not in ['CentOS Linux-8', 'Fedora-31'] %}
+{%   if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Oracle Linux Server-7', 'Amazon Linux-2', 'Fedora-30'] %}
 varnish.repo.dependencies:
     pkg.installed:
         - pkgs:
-            {% if salt['grains.get']('osfinger', '') not in ['Fedora-30'] %}
             - pygpgme
-            {% endif %}
             - yum-utils
         {%- if varnish_settings.get('retry_options', {}) %}
         - retry: {{ varnish_settings.retry_options | json }}
@@ -61,7 +59,7 @@ varnish.repo.dependencies:
             - pkgrepo: varnish.repo.{{ varnish_settings.repo }}_source
 {%   endif %}
 
-{%   if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Amazon Linux-2'] %}
+{%   if salt['grains.get']('osfinger', '') in ['CentOS Linux-7', 'Oracle Linux Server-7', 'Amazon Linux-2'] %}
 varnish_epel_repo:
     pkgrepo.managed:
         - name: epel
@@ -99,5 +97,4 @@ varnish.repo.{{ varnish_settings.repo }}_source:
         - sslverify: 1
         - sslcacert: /etc/pki/tls/certs/ca-bundle.crt
         - metadata_expire: 300
-
 {% endif %}
