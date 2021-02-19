@@ -7,7 +7,7 @@ varnish:
       # At time of providing this, `varnish63` is the latest and could be used
       # However, some of the older platforms are only supported up to `varnish52`
       # `varnish-weekly` works for all platforms, as a useful test
-      repo: 'varnish-weekly'  # to specify another custom repo than default (varnish40)
+      repo: 'varnish60lts'  # to specify another custom repo than default (varnish40)
     enabled: true  # Optional; useful to disable the service (enabled: false)
     install_from_repo: true  # Without this, varnish is installed from stock-repo
 
