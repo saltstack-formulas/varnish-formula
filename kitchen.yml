@@ -320,6 +320,7 @@ suites:
       state_top:
         base:
           '*':
+            - varnish.ng._mapdata
             - varnish.ng
       pillars:
         top.sls:
@@ -346,6 +347,7 @@ suites:
       state_top:
         base:
           '*':
+            - varnish.ng._mapdata
             - varnish.ng
       pillars:
         top.sls:
