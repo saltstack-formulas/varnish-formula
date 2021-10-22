@@ -387,11 +387,16 @@ suites:
       - opensuse-leap-152-3001-8-py3
       - opensuse-tmbl-latest-3001-8-py3
     provisioner:
+      dependencies:
+        - name: states
+          path: ./test/salt
       state_top:
         base:
           '*':
             - varnish.ng._mapdata
             - varnish.ng
+          'G@init:systemd and ( G@os:Arch )':
+            - states.custom_systemd_service
       pillars:
         top.sls:
           base:
